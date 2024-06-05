@@ -656,5 +656,22 @@ const products = [
       "apparel",
       "mens"
     ]
+  },
+  { 
+    id: "bc2847e9-5323-403f-b7cf-57fde044a2004",
+    image: "images/products/umbrella.jpg",
+    name: "Umbrella",
+    rating: {
+      stars: 3.5,
+      count: 1400
+    },
+    priceCents: 1000,
+    keywords: [
+      "rain",
+      "umbrella",
+      "parapellui",
+    ]
+    
+
   }
 ];
