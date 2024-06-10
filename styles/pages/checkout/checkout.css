@@ -235,3 +235,20 @@
 .is-editing-quantity .update-quantity-link {
   display: none;
 }
+
+.quantity-input{
+  width: 50px;
+  
+}
+.save-quantity-link ,.save-quantity-link {
+  display: none;
+}
+
+.is-editing-quantity .quantity-input{
+  display: initial;
+
+}
+
+.is-editing-quantity .save-quantity-link{
+  display: initial;
+}
