@@ -1,35 +1,34 @@
-import {cart, addToCart} from '../data/cart.js';
 import {products} from '../data/products.js';
-import {formatCurrency} from './utils/money.js'
+import {cart, addToCart} from '../data/cart.js';
+import { formatCurrency } from './utils/money.js';
 
-let productHTML = '';
-
-products.forEach((product) =>{
-  productHTML += `
+let productsHTML = '';
+products.forEach((productItem) =>{
+    productsHTML +=`
     <div class="product-container">
     <div class="product-image-container">
       <img class="product-image"
-        src="${product.image}">
+        src="${productItem.image}">
     </div>
 
     <div class="product-name limit-text-to-2-lines">
-      ${product.name}
+      ${productItem.name}
     </div>
 
     <div class="product-rating-container">
       <img class="product-rating-stars"
-        src="images/ratings/rating-${product.rating.stars * 10}.png">
+        src="images/ratings/rating-${productItem.rating.stars *10}.png">
       <div class="product-rating-count link-primary">
-        ${product.rating.count}
+        ${productItem.rating.count}
       </div>
     </div>
 
     <div class="product-price">
-    ${formatCurrency(product.priceCents)}
+      ${formatCurrency(productItem.priceCents)}
     </div>
 
     <div class="product-quantity-container">
-      <select class="js-quantity-selector-${product.id}">
+      <select class="js-quantity-selector-${productItem.id}">
         <option selected value="1">1</option>
         <option value="2">2</option>
         <option value="3">3</option>
@@ -45,87 +44,68 @@ products.forEach((product) =>{
 
     <div class="product-spacer"></div>
 
-    <div class="added-to-cart js-added-to-cart-${product.id}">
+    <div class="added-to-cart js-added-to-cart-${productItem.id}">
       <img src="images/icons/checkmark.png">
       Added
     </div>
 
-    <button class="add-to-cart-button button-primary js-add-to-cart"
-    data-product-id="${product.id}">
+    <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${productItem.id}">
       Add to Cart
     </button>
-  </div>
-  `;
-  
+  </div>`;
+
 });
 
-
-document.querySelector('.js-products-grid')
-  .innerHTML = productHTML;
-
-// We're going to use an object to save the timeout ids.
-// The reason we use an object is because each product
-// will have its own timeoutId. So an object lets us
-// save multiple timeout ids for different products.
-// For example:
-// {
-//   'product-id1': 2,
-//   'product-id2': 5,
-//   ...
-// }
-// (2 and 5 are ids that are returned when we call setTimeout).
-const addedMessageTimeouts = {};
+document.querySelector('.products-grid')
+    .innerHTML= productsHTML;
 
 
 
 function updateCartQuantity(){
-  let cartQuantity = 0;
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-  });
+    let cartQuantity = 0;
 
-  document.querySelector('.js-cart-quantity')
-  .innerHTML = cartQuantity;
+    cart.forEach((cartItem) =>{
+        cartQuantity+= cartItem.quantity;
+    });
+
+    document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
+
 }
 
-function addedMessage(productId){
-  const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
-  
-  addedMessage.classList.add('added-to-cart-visible');
+function applyCSS(productId, addedMessageTimeouts){
+    const addedMessage = document.querySelector(`.js-added-to-cart-${productId}`);
 
-  setTimeout(() => {
-    // Check if there's a previous timeout for this
-    // product. If there is, we should stop it.
+    addedMessage.classList.add('added-to-cart-apply');
+
     const previousTimeoutId = addedMessageTimeouts[productId];
-    if (previousTimeoutId) {
-      clearTimeout(previousTimeoutId);
+
+    if(previousTimeoutId){
+        clearTimeout(previousTimeoutId);
     }
 
     const timeoutId = setTimeout(() => {
-      addedMessage.classList.remove('added-to-cart-visible');
+        addedMessage.classList.remove('added-to-cart-apply');
     }, 2000);
 
-    // Save the timeoutId for this product
-    // so we can stop it later if we need to.
+    // Save the timeoutId so we can stop it later.
     addedMessageTimeouts[productId] = timeoutId;
-  });
 }
 
-
 document.querySelectorAll('.js-add-to-cart')
-  .forEach((button)=> {
-    button.addEventListener('click', () => {
-      const productId = button.dataset.productId;
+    .forEach((button) => {
+        button.addEventListener('click', () => {
+            const productId = button.dataset.productId;
 
-      addToCart(productId);
+            const addedMessageTimeouts = {};
 
-      updateCartQuantity();
-      
-      addedMessage(productId);
+            addToCart(productId);
 
-      
-    });
+            updateCartQuantity();
 
-
+            applyCSS(productId, addedMessageTimeouts);
+            
+            
+            
+        });
 });
 
