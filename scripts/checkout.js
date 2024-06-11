@@ -5,15 +5,12 @@ import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import {deliveryOptions} from '../data/delivery-options.js'
 
 let cartSummaryHTML = '';
-const today = dayjs();
-
-const deleveryDate = today.add(7, 'days');
-console.log(deleveryDate.format('dddd, MMMM D'));
 
 updateCartQuantity();
 
 cart.forEach((cartItem) => {
     const productId = cartItem.productId;
+    
     
     let matchingProduct;
 
@@ -26,7 +23,8 @@ cart.forEach((cartItem) => {
     const deliveryOptionId = cartItem.deliveryOptionId;
 
     let deliveryOption; 
-    deliveryOption.forEach((option) => {
+
+    deliveryOptions.forEach((option) => {
       if(option.id === deliveryOptionId){
         deliveryOption = option;
       }
@@ -89,7 +87,7 @@ function deliveryOptionsHTML(matchingProduct, cartItem){
 
     const dateString = deliveryDate.format('dddd, MMMM D');
 
-    const priceString = deliveryOption.priceCents === 0 ? 'FREE': `$${formatCurrency(deliveryOption.priceCents)} -`;
+    const priceString = deliveryOption.priceCents === 0 ? 'FREE' : `$${formatCurrency(deliveryOption.priceCents)} -`;
 
     const isChecked = deliveryOption.id === cartItem.deliveryOptionId;
 
