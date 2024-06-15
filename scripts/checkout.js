@@ -4,11 +4,19 @@ import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
 // import '../data/backend-practice.js';
 import { loadProducts, loadProductsFetch } from "../data/products.js";
 
-
-    loadProductsFetch().then(() => {
+async function loadPage(){
+    await loadProductsFetch();
     renderCheckoutHeader();
     renderOrderSummary();
     renderPaymentSummary();
-});
+    
+}
+loadPage();
+
+//     loadProductsFetch().then(() => {
+//     renderCheckoutHeader();
+//     renderOrderSummary();
+//     renderPaymentSummary();
+// });
 
 
