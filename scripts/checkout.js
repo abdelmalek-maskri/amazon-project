@@ -4,8 +4,15 @@ import { renderCheckoutHeader } from "./checkout/checkoutHeader.js";
 // import '../data/backend-practice.js';
 import { loadProducts } from "../data/products.js";
 
-loadProducts(() => {
+new Promise((resolve) => {
+    
+    loadProducts(() => {
+        resolve();
+    });
+}).then(() => {
     renderCheckoutHeader();
     renderOrderSummary();
     renderPaymentSummary();
 });
+
+
