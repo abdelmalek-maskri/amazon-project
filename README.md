@@ -1,7 +1,6 @@
-##Amazon Clone Frontend
+# Amazon Clone - Frontend Project
 
-Welcome to the frontend of the Amazon clone project. This project is designed to replicate the look and feel of the Amazon website using HTML,
-CSS, and JavaScript. It includes multiple pages such as the main page, checkout, orders, and tracking.
+Welcome to my Amazon Clone project! This is a purely front-end application that mimics the shopping experience on Amazon. Keep in mind, this project is just for fun and learning purposes, so no real transactions are happening here. 😉
 
 check it out here https://my-amazon-clone-frontend.netlify.app
 
